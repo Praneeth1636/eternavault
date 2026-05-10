@@ -272,8 +272,8 @@ event Cancelled      (uint256 indexed vaultId, address indexed owner);
 
 ## 👥 Authors
 
-- **Praneeth Kadem** — [@Praneeth1636](https://github.com/Praneeth1636)
-- **Bhavana Peruri** — [@bhavana301](https://github.com/bhavana301)
+- **Praneeth Kadem** — [@Praneeth1636](https://github.com/Praneeth1636) - pk3206
+- **Bhavana Peruri** — [@bhavana301](https://github.com/bhavana301) - bp2847
 
 Both authors pair-programmed all components — contract design, test suite, frontend, deployment, and documentation — with both reviewing every commit.
 
