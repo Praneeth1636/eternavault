@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { ensureSepolia, CHAIN_ID, CHAIN_ID_HEX } from "@/lib/contract";
+import { ensureChain, CHAIN_ID, CHAIN_ID_HEX, CHAIN_NAME } from "@/lib/contract";
 import { shortAddr } from "@/lib/format";
 import styles from "./ConnectWallet.module.css";
 
@@ -55,7 +55,7 @@ export default function ConnectWallet({ onAccountChange }) {
       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       if (accounts && accounts.length > 0) update(accounts[0]);
       try {
-        await ensureSepolia();
+        await ensureChain();
       } catch (e) {
         console.warn("Network switch declined", e);
       }
@@ -79,10 +79,10 @@ export default function ConnectWallet({ onAccountChange }) {
       {wrongNetwork ? (
         <div className={styles.banner}>
           <span>
-            Wrong network detected. EternaVault runs on Sepolia (chainId {CHAIN_ID}).
+            Wrong network detected. EternaVault is configured for {CHAIN_NAME} (chainId {CHAIN_ID}).
           </span>
-          <button className={styles.bannerBtn} onClick={ensureSepolia}>
-            Switch to Sepolia
+          <button className={styles.bannerBtn} onClick={ensureChain}>
+            Switch to {CHAIN_NAME}
           </button>
         </div>
       ) : null}

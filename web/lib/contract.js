@@ -7,6 +7,13 @@ export const VAULT_ADDRESS =
 export const CHAIN_ID = Number(process.env.NEXT_PUBLIC_CHAIN_ID || 11155111);
 export const CHAIN_ID_HEX = "0x" + CHAIN_ID.toString(16);
 
+export const CHAIN_NAMES = {
+  1: "Ethereum Mainnet",
+  11155111: "Sepolia",
+  31337: "Hardhat Local",
+};
+export const CHAIN_NAME = CHAIN_NAMES[CHAIN_ID] || `chainId ${CHAIN_ID}`;
+
 export const VAULT_STATUS = {
   0: "Active",
   1: "ClaimPeriod",
@@ -86,7 +93,29 @@ export async function getERC20(address, withSigner = false) {
   return new ethers.Contract(address, ERC20_ABI, provider);
 }
 
-export async function ensureSepolia() {
+function chainAddParams() {
+  if (CHAIN_ID === 11155111) {
+    return {
+      chainId: CHAIN_ID_HEX,
+      chainName: "Sepolia",
+      nativeCurrency: { name: "Sepolia ETH", symbol: "ETH", decimals: 18 },
+      rpcUrls: ["https://rpc.sepolia.org"],
+      blockExplorerUrls: ["https://sepolia.etherscan.io"],
+    };
+  }
+  if (CHAIN_ID === 31337) {
+    return {
+      chainId: CHAIN_ID_HEX,
+      chainName: "Hardhat Local",
+      nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+      rpcUrls: ["http://127.0.0.1:8545"],
+      blockExplorerUrls: [],
+    };
+  }
+  return null;
+}
+
+export async function ensureChain() {
   if (typeof window === "undefined" || !window.ethereum) {
     throw new Error("MetaMask not detected");
   }
@@ -99,24 +128,21 @@ export async function ensureSepolia() {
     });
     return true;
   } catch (err) {
-    if (err && err.code === 4902 && CHAIN_ID === 11155111) {
+    if (err && err.code === 4902) {
+      const params = chainAddParams();
+      if (!params) throw err;
       await window.ethereum.request({
         method: "wallet_addEthereumChain",
-        params: [
-          {
-            chainId: CHAIN_ID_HEX,
-            chainName: "Sepolia",
-            nativeCurrency: { name: "Sepolia ETH", symbol: "ETH", decimals: 18 },
-            rpcUrls: ["https://rpc.sepolia.org"],
-            blockExplorerUrls: ["https://sepolia.etherscan.io"],
-          },
-        ],
+        params: [params],
       });
       return true;
     }
     throw err;
   }
 }
+
+// Backwards-compatible alias.
+export const ensureSepolia = ensureChain;
 
 export function txUrl(hash) {
   if (!ETHERSCAN_BASE || !hash) return "";
