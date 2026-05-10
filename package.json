@@ -1,0 +1,24 @@
+{
+  "name": "eternavault",
+  "version": "1.0.0",
+  "description": "EternaVault - Trustless inheritance smart contract for the digital age",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:mock": "hardhat run scripts/deployMock.js --network sepolia",
+    "deploy:mock:local": "hardhat run scripts/deployMock.js --network localhost",
+    "e2e": "hardhat run scripts/e2e.js"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.10",
+    "dotenv": "^16.4.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2"
+  }
+}

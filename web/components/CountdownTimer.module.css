@@ -1,0 +1,25 @@
+.timer {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f3f4f6;
+  letter-spacing: 0.04em;
+}
+
+.urgent {
+  color: #fb923c;
+}
+
+.expired {
+  color: #f87171;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: 0.2rem;
+}
